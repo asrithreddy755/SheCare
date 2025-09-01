@@ -49,7 +49,7 @@ export default function DashboardPage() {
 
       <div>
         <h2 className="text-2xl font-semibold mb-4 font-headline">Upcoming Appointments</h2>
-        {upcomingAppointments.length &gt; 0 ? (
+        {upcomingAppointments.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2">
             {upcomingAppointments.map((appt, index) => (
               <Card key={index}>
