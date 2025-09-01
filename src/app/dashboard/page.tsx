@@ -1,8 +1,12 @@
+
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Calendar, Clock, PlusCircle, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 const upcomingAppointments = [
   {
@@ -25,6 +29,12 @@ const upcomingAppointments = [
 
 export default function DashboardPage() {
   const userAlias = "Sunny"; // Mock user alias
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    router.push('/auth/login');
+  }
 
   return (
     <div className="space-y-8">
@@ -96,7 +106,7 @@ export default function DashboardPage() {
         )}
       </div>
        <div className="text-right">
-        <Button variant="destructive">Logout</Button>
+        <Button variant="destructive" onClick={handleLogout}>Logout</Button>
        </div>
     </div>
   );
