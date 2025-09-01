@@ -61,7 +61,7 @@ export default function Home() {
             </div>
             <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
               {features.map((feature, index) => (
-                <Card key={index} className="hover:shadow-lg hover:bg-primary/10 transition-all duration-300">
+                <Card key={index} className="hover:bg-primary/10 transition-colors duration-300 animate-pop-in" style={{ animationDelay: `${index * 150}ms`, opacity: 0 }}>
                   <CardHeader className="flex flex-row items-center gap-4">
                     {feature.icon}
                     <CardTitle>{feature.title}</CardTitle>
