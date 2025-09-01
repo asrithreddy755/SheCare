@@ -29,28 +29,20 @@ export default function Home() {
         {/* Hero Section */}
         <section className="w-full py-20 md:py-32 lg:py-40 bg-secondary/20 dark:bg-secondary/10">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
-              <div className="flex flex-col justify-center space-y-4">
-                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline">
-                  Your Health, Your Privacy
-                </h1>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  SheCare provides a safe and anonymous space for women to connect with doctors for video consultations. Your well-being matters, and so does your privacy.
-                </p>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button asChild size="lg">
-                    <Link href="/dashboard/book">Book a Consultation</Link>
-                  </Button>
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                <div className="flex flex-col justify-center space-y-4 animate-fade-in-up">
+                    <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline">
+                    Your Health, Your Privacy
+                    </h1>
+                    <p className="max-w-[600px] text-muted-foreground md:text-xl mx-auto">
+                    SheCare provides a safe and anonymous space for women to connect with doctors for video consultations. Your well-being matters, and so does your privacy.
+                    </p>
+                    <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
+                    <Button asChild size="lg">
+                        <Link href="/dashboard/book">Book a Consultation</Link>
+                    </Button>
+                    </div>
                 </div>
-              </div>
-              <Image
-                src="https://picsum.photos/600/400"
-                data-ai-hint="woman doctor smiling"
-                width={600}
-                height={400}
-                alt="Hero"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full"
-              />
             </div>
           </div>
         </section>
