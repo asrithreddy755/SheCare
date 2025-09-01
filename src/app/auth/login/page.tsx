@@ -7,16 +7,23 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
+import { useState } from "react"
 
 export default function LoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real app, you'd validate credentials here.
-    // For this mock, we'll just set a flag in localStorage.
-    localStorage.setItem('isLoggedIn', 'true');
-    router.push('/dashboard');
+    // For this mock, we'll check the email to determine the role.
+    if (email === 'admin@shecare.com') {
+        localStorage.setItem('isAdminLoggedIn', 'true');
+        router.push('/admin/dashboard');
+    } else {
+        localStorage.setItem('isLoggedIn', 'true');
+        router.push('/dashboard');
+    }
   };
 
   return (
@@ -26,13 +33,14 @@ export default function LoginPage() {
           <CardHeader>
             <CardTitle className="text-2xl">Login</CardTitle>
             <CardDescription>
-              Enter your email below to login to your account.
+              Enter your email below to login to your account. <br />
+              (Use admin@shecare.com for admin access)
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="m@example.com" required />
+              <Input id="email" type="email" placeholder="m@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
