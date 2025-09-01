@@ -5,5 +5,5 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return &lt;div className="container py-8 md:py-12"&gt;{children}&lt;/div&gt;;
+  return <div className="container py-8 md:py-12">{children}</div>;
 }
