@@ -32,6 +32,10 @@ export default function RegisterPage() {
             <Input id="email" type="email" placeholder="m@example.com" required />
           </div>
           <div className="grid gap-2">
+            <Label htmlFor="phone">Phone Number</Label>
+            <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" required />
+          </div>
+          <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
              <div className="relative">
                 <Input 
