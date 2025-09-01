@@ -1,0 +1,60 @@
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
+import Link from "next/link"
+
+export default function RegisterPage() {
+  return (
+    <div className="flex items-center justify-center min-h-[calc(100vh-14rem)] py-12">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-2xl">Register</CardTitle>
+          <CardDescription>
+            Create your anonymous account to get started.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="alias-name">Alias Name</Label>
+            <Input id="alias-name" placeholder="e.g., JaneDoe" required />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" type="email" placeholder="m@example.com" required />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" type="password" required />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+             <div className="grid gap-2">
+                <Label htmlFor="age">Age</Label>
+                <Input id="age" type="number" placeholder="25" required />
+            </div>
+            <div className="grid gap-2">
+                <Label htmlFor="gender">Gender</Label>
+                <Input id="gender" type="text" value="Female" readOnly disabled />
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 mt-2">
+            <Checkbox id="hide-name" defaultChecked />
+            <Label htmlFor="hide-name" className="text-sm font-normal text-muted-foreground">
+                Hide my real name from doctors (recommended for privacy)
+            </Label>
+          </div>
+          <Button type="submit" className="w-full mt-2">
+            Create an account
+          </Button>
+        </CardContent>
+        <CardFooter className="text-sm">
+          Already have an account?{" "}
+          <Button variant="link" asChild><Link href="/auth/login">Login</Link></Button>
+        </CardFooter>
+      </Card>
+    </div>
+  )
+}
