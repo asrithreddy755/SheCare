@@ -63,10 +63,16 @@ export default function RegisterPage() {
                 <Input id="gender" type="text" value="Female" readOnly disabled />
             </div>
           </div>
-          <div className="flex items-center space-x-2 mt-2">
+          <div className="flex items-start space-x-2 mt-2">
             <Checkbox id="hide-name" defaultChecked />
-            <Label htmlFor="hide-name" className="text-sm font-normal text-muted-foreground">
+            <Label htmlFor="hide-name" className="text-sm font-normal text-muted-foreground leading-none">
                 Hide my real name from doctors (recommended for privacy)
+            </Label>
+          </div>
+           <div className="flex items-start space-x-2 mt-2">
+            <Checkbox id="terms" required />
+            <Label htmlFor="terms" className="text-sm font-normal leading-none">
+              I accept the <Link href="#" className="underline hover:text-primary">terms and conditions</Link>.
             </Label>
           </div>
           <Button type="submit" className="w-full mt-2">
