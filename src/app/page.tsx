@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, Lock, MessageCircle, Video } from 'lucide-react';
@@ -60,7 +61,7 @@ export default function Home() {
             </div>
             <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
               {features.map((feature, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+                <Card key={index} className="hover:shadow-lg hover:bg-primary/10 transition-all duration-300">
                   <CardHeader className="flex flex-row items-center gap-4">
                     {feature.icon}
                     <CardTitle>{feature.title}</CardTitle>
