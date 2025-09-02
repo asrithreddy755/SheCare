@@ -164,15 +164,15 @@ export default function Home() {
                 >
                     <CarouselContent>
                         {testimonials.map((testimonial, index) => (
-                        <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                            <div className="p-1">
-                                <Card className="h-full">
-                                    <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+                        <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 flex">
+                            <div className="p-1 w-full">
+                                <Card className="h-full flex flex-col">
+                                    <CardContent className="flex flex-col items-center justify-center p-6 text-center flex-grow">
                                        <div className="flex mb-2">
                                             {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
                                         </div>
                                         <p className="text-muted-foreground italic">&quot;{testimonial.quote}&quot;</p>
-                                        <p className="font-semibold mt-4">- {testimonial.author}</p>
+                                        <p className="font-semibold mt-auto pt-4">- {testimonial.author}</p>
                                     </CardContent>
                                 </Card>
                             </div>
@@ -188,5 +188,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
