@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, Clock, PlusCircle, MessageCircle } from "lucide-react";
+import { Calendar, Clock, Stethoscope, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import {
@@ -57,7 +57,7 @@ export default function DashboardPage() {
         <div className="flex gap-2">
           <Button asChild>
             <Link href="/dashboard/book">
-              <PlusCircle className="mr-2 h-4 w-4" /> Book Consultation
+              <Stethoscope className="mr-2 h-4 w-4" /> Book Consultation
             </Link>
           </Button>
            <Button variant="outline" asChild>
