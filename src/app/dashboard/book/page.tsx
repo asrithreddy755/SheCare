@@ -25,9 +25,11 @@ export default function BookConsultationPage() {
   const [specialty, setSpecialty] = React.useState<string>(initialSpecialty)
   const [doctor, setDoctor] = React.useState<string>(initialDoctor);
   const [time, setTime] = React.useState<string>("")
+  const [isClient, setIsClient] = React.useState(false)
   const { toast } = useToast()
   
   React.useEffect(() => {
+    setIsClient(true)
     const specialtyFromQuery = searchParams.get('specialty');
     const doctorFromQuery = searchParams.get('doctor');
     if (specialtyFromQuery && specialties.includes(specialtyFromQuery)) {
@@ -52,6 +54,9 @@ export default function BookConsultationPage() {
       description: `Your ${specialty} consultation is booked for ${date.toLocaleDateString()} at ${time}.`,
     })
   }
+  
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -90,7 +95,7 @@ export default function BookConsultationPage() {
                     selected={date}
                     onSelect={setDate}
                     className="rounded-md border"
-                    disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() - 1))}
+                    disabled={(currentDate) => isClient && currentDate < yesterday}
                   />
               </div>
             </div>
