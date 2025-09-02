@@ -231,7 +231,7 @@ export default function AdminDashboardPage() {
               </Table>
             </CardContent>
           </Card>
-           <Card>
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Inbox /> Inbox
@@ -239,25 +239,33 @@ export default function AdminDashboardPage() {
                 <CardDescription>Messages from the contact form.</CardDescription>
               </CardHeader>
               <CardContent>
-                 <ScrollArea className="h-[300px]">
+                 <ScrollArea className="h-[300px] w-full">
                     {messages.length > 0 ? (
-                        <div className="space-y-4">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Name</TableHead>
+                              <TableHead>Email</TableHead>
+                              <TableHead>Message</TableHead>
+                              <TableHead className="text-right">Actions</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
                             {messages.map((msg) => (
-                                <div key={msg.date} className="border p-4 rounded-lg">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <p className="font-semibold">{msg.name} <span className="text-sm text-muted-foreground font-normal">&lt;{msg.email}&gt;</span></p>
-                                            <p className="text-xs text-muted-foreground">{new Date(msg.date).toLocaleString()}</p>
-                                        </div>
-                                        <Button variant="ghost" size="icon" onClick={() => handleRemoveMessage(msg.date)}>
-                                            <Trash2 className="h-4 w-4" />
-                                            <span className="sr-only">Delete message</span>
-                                        </Button>
-                                    </div>
-                                    <p className="mt-2 text-sm">{msg.message}</p>
-                                </div>
+                                <TableRow key={msg.date}>
+                                  <TableCell className="font-medium">{msg.name}</TableCell>
+                                  <TableCell>{msg.email}</TableCell>
+                                  <TableCell className="max-w-[200px] truncate">{msg.message}</TableCell>
+                                  <TableCell className="text-right">
+                                      <Button variant="ghost" size="icon" onClick={() => handleRemoveMessage(msg.date)}>
+                                          <Trash2 className="h-4 w-4" />
+                                          <span className="sr-only">Delete message</span>
+                                      </Button>
+                                  </TableCell>
+                                </TableRow>
                             ))}
-                        </div>
+                          </TableBody>
+                        </Table>
                     ) : (
                         <div className="text-center text-muted-foreground py-12">
                             <Inbox className="mx-auto h-12 w-12" />
