@@ -164,11 +164,17 @@ export default function DashboardPage() {
                     <span>Completed on {new Date(appt.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                   </div>
                 </CardContent>
-                <CardFooter>
-                   <Button variant="outline" className="w-full" asChild>
+                <CardFooter className="grid grid-cols-2 gap-2">
+                   <Button variant="outline" asChild>
                      <Link href={`/dashboard/chat/${index + upcomingAppointments.length}`}>
                         <MessageCircle className="mr-2 h-4 w-4" />
                         Continue Chat
+                    </Link>
+                  </Button>
+                  <Button asChild>
+                    <Link href="/dashboard/book">
+                      <Stethoscope className="mr-2 h-4 w-4" />
+                      Book Again
                     </Link>
                   </Button>
                 </CardFooter>
@@ -207,5 +213,7 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
 
     
