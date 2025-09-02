@@ -120,10 +120,11 @@ export default function DoctorDashboardPage() {
                     <TableHead>Patient</TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {pastAppointments.map((appt) => (
+                  {pastAppointments.map((appt, index) => (
                     <TableRow key={appt.patientAlias}>
                       <TableCell className="font-medium">{appt.patientAlias}</TableCell>
                       <TableCell>{appt.date}</TableCell>
@@ -131,6 +132,14 @@ export default function DoctorDashboardPage() {
                          <Badge variant={appt.status === "Completed" ? "default" : "secondary"}>
                           {appt.status}
                         </Badge>
+                      </TableCell>
+                       <TableCell className="text-right space-x-2">
+                        <Button variant="outline" size="sm" asChild>
+                           <Link href={`/doctor/chat/${index + upcomingAppointments.length}`}>
+                            <MessageCircle className="h-4 w-4 mr-2" />
+                            Chat
+                           </Link>
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -142,3 +151,5 @@ export default function DoctorDashboardPage() {
     </div>
   )
 }
+
+    

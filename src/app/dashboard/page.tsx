@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, Clock, Stethoscope, MessageCircle, Star, Video } from "lucide-react";
+import { Calendar, Clock, Stethoscope, MessageCircle, Star, Video, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import {
@@ -35,6 +35,17 @@ const upcomingAppointments = [
     time: "02:00 PM",
     avatar: "https://picsum.photos/100/100?q=2",
     dataAiHint: "therapist smiling"
+  },
+];
+
+const pastAppointments = [
+  {
+    doctor: "Dr. Ben Carter",
+    specialty: "Nutrition",
+    date: "2024-08-10",
+    time: "09:00 AM",
+    avatar: "https://picsum.photos/100/100?q=3",
+    dataAiHint: "nutritionist man"
   },
 ];
 
@@ -130,7 +141,51 @@ export default function DashboardPage() {
           </Card>
         )}
       </div>
-       <div className="text-right">
+
+       <div>
+        <h2 className="text-2xl font-semibold my-4 font-headline">Past Appointments</h2>
+        {pastAppointments.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2">
+            {pastAppointments.map((appt, index) => (
+              <Card key={index} className="opacity-80">
+                <CardHeader className="flex flex-row items-center gap-4">
+                  <Avatar className="h-12 w-12">
+                    <AvatarImage src={appt.avatar} alt={appt.doctor} data-ai-hint={appt.dataAiHint} />
+                    <AvatarFallback>{appt.doctor.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <CardTitle>{appt.doctor}</CardTitle>
+                    <CardDescription>{appt.specialty}</CardDescription>
+                  </div>
+                </CardHeader>
+                <CardContent className="grid gap-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Completed on {new Date(appt.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                   <Button variant="outline" className="w-full" asChild>
+                     <Link href={`/dashboard/chat/${index + upcomingAppointments.length}`}>
+                        <MessageCircle className="mr-2 h-4 w-4" />
+                        Continue Chat
+                    </Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <Card className="flex flex-col items-center justify-center p-12 text-center border-dashed">
+            <CardHeader>
+              <CardTitle>No Past Appointments</CardTitle>
+              <CardDescription>Your completed consultations will appear here.</CardDescription>
+            </CardHeader>
+          </Card>
+        )}
+      </div>
+
+       <div className="text-right mt-8">
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive">Logout</Button>
