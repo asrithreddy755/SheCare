@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { PlusCircle, Trash2, Inbox } from "lucide-react"
+import { PlusCircle, Trash2, Inbox, UserPlus } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import {
@@ -31,6 +31,11 @@ type Doctor = {
   status: "Active" | "Inactive"
 }
 
+type Admin = {
+    name: string;
+    email: string;
+}
+
 type Message = {
   name: string;
   email: string;
@@ -45,10 +50,16 @@ const initialDoctors: Doctor[] = [
   { name: "Dr. Maria Garcia", specialty: "Dermatology", status: "Active" },
 ]
 
+const initialAdmins: Admin[] = [
+    { name: "Super Admin", email: "admin@shecare.com" },
+]
+
 export default function AdminDashboardPage() {
   const [doctors, setDoctors] = React.useState<Doctor[]>(initialDoctors)
+  const [admins, setAdmins] = React.useState<Admin[]>(initialAdmins);
   const [messages, setMessages] = React.useState<Message[]>([])
   const [newDoctor, setNewDoctor] = React.useState({ name: "", specialty: "" })
+  const [newAdmin, setNewAdmin] = React.useState({ name: "", email: "" });
   const { toast } = useToast()
   const router = useRouter();
 
@@ -77,6 +88,36 @@ export default function AdminDashboardPage() {
       variant: "destructive"
     })
   }
+
+  const handleAddAdmin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newAdmin.name && newAdmin.email) {
+      setAdmins([...admins, newAdmin]);
+      setNewAdmin({ name: "", email: "" });
+      toast({
+        title: "Admin Added",
+        description: `${newAdmin.name} has been added as an admin.`,
+      });
+    }
+  };
+
+  const handleRemoveAdmin = (adminEmail: string) => {
+    // Prevent the last admin from being removed
+    if (admins.length <= 1) {
+        toast({
+            title: "Cannot Remove Admin",
+            description: "At least one administrator must remain.",
+            variant: "destructive",
+        });
+        return;
+    }
+    setAdmins(admins.filter((admin) => admin.email !== adminEmail));
+    toast({
+      title: "Admin Removed",
+      description: `The admin has been removed.`,
+      variant: "destructive",
+    });
+  };
 
   const handleRemoveMessage = (messageDate: string) => {
     const updatedMessages = messages.filter(msg => msg.date !== messageDate)
@@ -160,6 +201,37 @@ export default function AdminDashboardPage() {
             </CardContent>
           </Card>
            <Card>
+            <CardHeader>
+              <CardTitle>Administrator Management</CardTitle>
+              <CardDescription>Add or remove administrators.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {admins.map((admin) => (
+                    <TableRow key={admin.email}>
+                      <TableCell className="font-medium">{admin.name}</TableCell>
+                      <TableCell>{admin.email}</TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="ghost" size="icon" onClick={() => handleRemoveAdmin(admin.email)}>
+                          <Trash2 className="h-4 w-4" />
+                          <span className="sr-only">Remove Admin</span>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+           <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Inbox /> Inbox
@@ -197,7 +269,7 @@ export default function AdminDashboardPage() {
             </Card>
         </div>
 
-        <div>
+        <div className="space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>Add New Doctor</CardTitle>
@@ -232,6 +304,43 @@ export default function AdminDashboardPage() {
                   Add Doctor
                 </Button>
               </CardFooter>
+            </form>
+          </Card>
+          <Card>
+            <CardHeader>
+                <CardTitle>Add New Admin</CardTitle>
+                <CardDescription>Add a new administrator to SheCare.</CardDescription>
+            </CardHeader>
+            <form onSubmit={handleAddAdmin}>
+                <CardContent className="space-y-4">
+                <div className="space-y-2">
+                    <Label htmlFor="admin-name">Full Name</Label>
+                    <Input
+                    id="admin-name"
+                    placeholder="e.g., Admin User"
+                    value={newAdmin.name}
+                    onChange={(e) => setNewAdmin({ ...newAdmin, name: e.target.value })}
+                    required
+                    />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="admin-email">Email</Label>
+                    <Input
+                    id="admin-email"
+                    type="email"
+                    placeholder="e.g., admin2@shecare.com"
+                    value={newAdmin.email}
+                    onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })}
+                    required
+                    />
+                </div>
+                </CardContent>
+                <CardFooter>
+                <Button type="submit" className="w-full">
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Add Admin
+                </Button>
+                </CardFooter>
             </form>
           </Card>
         </div>
