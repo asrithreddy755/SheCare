@@ -7,21 +7,29 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Eye, EyeOff } from "lucide-react"
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  
+  useEffect(() => {
+    // Clear all roles on visiting the login page
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('isAdminLoggedIn');
+    localStorage.removeItem('isDoctorLoggedIn');
+  }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you'd validate credentials here.
-    // For this mock, we'll check the email to determine the role.
-    if (email === 'admin@shecare.com') {
+    if (email.toLowerCase().startsWith('admin')) {
         localStorage.setItem('isAdminLoggedIn', 'true');
         router.push('/admin/dashboard');
+    } else if (email.toLowerCase().startsWith('doctor')) {
+        localStorage.setItem('isDoctorLoggedIn', 'true');
+        router.push('/doctor/dashboard');
     } else {
         localStorage.setItem('isLoggedIn', 'true');
         router.push('/dashboard');
@@ -35,8 +43,10 @@ export default function LoginPage() {
           <CardHeader>
             <CardTitle className="text-2xl">Login</CardTitle>
             <CardDescription>
-              Enter your email below to login to your account. <br />
-              (Use admin@shecare.com for admin access)
+              Enter your email to login. <br />
+              <span className="text-xs">
+                (Use <b>admin@shecare.com</b> for admin, <b>doctor@shecare.com</b> for doctor)
+              </span>
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">

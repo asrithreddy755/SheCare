@@ -1,14 +1,14 @@
 
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Logo } from '@/components/logo';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { cn } from '@/lib/utils';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -16,13 +16,40 @@ const navLinks = [
   { href: '/about#contact', label: 'Contact' },
 ];
 
-const authLinks = [
-    { href: '/auth/login', label: 'Login' },
-    { href: '/auth/register', label: 'Register' },
-];
-
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [dashboardUrl, setDashboardUrl] = useState('/auth/login');
+
+  useEffect(() => {
+    const user = localStorage.getItem('isLoggedIn');
+    const admin = localStorage.getItem('isAdminLoggedIn');
+    const doctor = localStorage.getItem('isDoctorLoggedIn');
+    
+    if (user) {
+        setIsLoggedIn(true);
+        setDashboardUrl('/dashboard');
+    } else if (admin) {
+        setIsLoggedIn(true);
+        setDashboardUrl('/admin/dashboard');
+    } else if (doctor) {
+        setIsLoggedIn(true);
+        setDashboardUrl('/doctor/dashboard');
+    } else {
+        setIsLoggedIn(false);
+    }
+  }, [usePathname()]); // Re-check on route change
+
+  const authLinks = isLoggedIn
+    ? []
+    : [
+        { href: '/auth/login', label: 'Login' },
+        { href: '/auth/register', label: 'Register' },
+      ];
+
+  const mobileNavLinks = isLoggedIn
+    ? [...navLinks, { href: dashboardUrl, label: 'Dashboard' }]
+    : [...navLinks, ...authLinks];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -37,14 +64,19 @@ export function Header() {
         </nav>
         <div className="flex flex-1 items-center justify-end gap-2">
             <nav className="hidden md:flex items-center gap-2">
-                 <Button asChild>
-                    <Link href="/dashboard">Dashboard</Link>
-                </Button>
-                {authLinks.map(({href, label}) => (
-                    <Button key={label} variant={href === '/auth/register' ? 'default' : 'ghost'} asChild>
-                        <Link href={href}>{label}</Link>
+                {isLoggedIn ? (
+                    <Button asChild>
+                        <Link href={dashboardUrl}><LayoutDashboard className="mr-2" />Dashboard</Link>
                     </Button>
-                ))}
+                ) : (
+                   <>
+                    {authLinks.map(({href, label}) => (
+                        <Button key={label} variant={href === '/auth/register' ? 'default' : 'ghost'} asChild>
+                            <Link href={href}>{label}</Link>
+                        </Button>
+                    ))}
+                   </>
+                )}
             </nav>
           <ThemeToggle />
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -66,7 +98,7 @@ export function Header() {
                     </SheetTrigger>
                 </div>
                 <nav className="flex flex-col gap-4 text-sm font-medium">
-                  {[...navLinks, { href: '/dashboard', label: 'Dashboard' } , ...authLinks].map(({ href, label }) => (
+                  {mobileNavLinks.map(({ href, label }) => (
                     <Link
                       key={label}
                       href={href}
