@@ -189,7 +189,7 @@ export default function DashboardPage() {
                     </Link>
                   </Button>
                   <Button asChild>
-                    <Link href="/dashboard/book">
+                    <Link href={`/dashboard/book?specialty=${encodeURIComponent(appt.specialty)}`}>
                       <Stethoscope className="mr-2 h-4 w-4" />
                       Book Again
                     </Link>

@@ -1,6 +1,8 @@
+
 "use client"
 
 import * as React from "react"
+import { useSearchParams } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar } from "@/components/ui/calendar"
@@ -13,10 +15,20 @@ const specialties = ["Gynecology", "Mental Health", "Nutrition", "Dermatology", 
 const timeSlots = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM"];
 
 export default function BookConsultationPage() {
+  const searchParams = useSearchParams()
+  const initialSpecialty = searchParams.get('specialty') || "";
+
   const [date, setDate] = React.useState<Date | undefined>(new Date())
-  const [specialty, setSpecialty] = React.useState<string>("")
+  const [specialty, setSpecialty] = React.useState<string>(initialSpecialty)
   const [time, setTime] = React.useState<string>("")
   const { toast } = useToast()
+  
+  React.useEffect(() => {
+    const specialtyFromQuery = searchParams.get('specialty');
+    if (specialtyFromQuery && specialties.includes(specialtyFromQuery)) {
+      setSpecialty(specialtyFromQuery);
+    }
+  }, [searchParams]);
 
   const handleConfirm = () => {
     if (!specialty || !date || !time) {
