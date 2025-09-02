@@ -73,11 +73,11 @@ export default function BookConsultationPage() {
               <Label className="text-lg font-semibold">3. Select Time</Label>
               <RadioGroup value={time} onValueChange={setTime} className="grid grid-cols-2 gap-4 pt-2">
                 {timeSlots.map(slot => (
-                  <div key={slot}>
-                    <RadioGroupItem value={slot} id={slot} className="sr-only" />
+                  <div key={slot} className="relative">
+                    <RadioGroupItem value={slot} id={slot} className="peer sr-only" />
                     <Label
                       htmlFor={slot}
-                      className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary"
+                      className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                     >
                       {slot}
                     </Label>
