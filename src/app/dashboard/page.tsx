@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, Clock, Stethoscope, MessageCircle } from "lucide-react";
+import { Calendar, Clock, Stethoscope, MessageCircle, Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import {
@@ -54,7 +54,7 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-bold font-headline">Welcome, {userAlias}</h1>
           <p className="text-muted-foreground">Here's your health dashboard.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button asChild>
             <Link href="/dashboard/book">
               <Stethoscope className="mr-2 h-4 w-4" /> Book Consultation
@@ -63,6 +63,11 @@ export default function DashboardPage() {
            <Button variant="outline" asChild>
             <Link href="/dashboard/chat">
               <MessageCircle className="mr-2 h-4 w-4" /> Anonymous Chat
+            </Link>
+          </Button>
+           <Button variant="outline" asChild>
+            <Link href="/dashboard/reviews">
+              <Star className="mr-2 h-4 w-4" /> Leave a Review
             </Link>
           </Button>
         </div>
