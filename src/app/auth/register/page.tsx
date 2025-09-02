@@ -76,7 +76,7 @@ export default function RegisterPage() {
            <div className="flex items-start space-x-2 mt-2">
             <Checkbox id="terms" required />
             <Label htmlFor="terms" className="text-sm font-normal leading-none">
-              I accept the <Link href="#" className="underline hover:text-primary">terms and conditions</Link>.
+              I accept the <Link href="/terms" className="underline hover:text-primary">terms and conditions</Link>.
             </Label>
           </div>
           <Button type="submit" className="w-full mt-2">

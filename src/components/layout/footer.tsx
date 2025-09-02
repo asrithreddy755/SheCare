@@ -14,7 +14,7 @@ export function Footer() {
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <Link href="/about#contact" className="hover:text-primary">Contact</Link>
           <Link href="#" className="hover:text-primary">Privacy Policy</Link>
-          <Link href="#" className="hover:text-primary">Terms &amp; Conditions</Link>
+          <Link href="/terms" className="hover:text-primary">Terms &amp; Conditions</Link>
         </div>
       </div>
     </footer>
