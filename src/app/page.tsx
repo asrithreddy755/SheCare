@@ -168,10 +168,7 @@ export default function Home() {
                             <div className="p-1 w-full">
                                 <Card className="h-full flex flex-col">
                                     <CardContent className="flex flex-col items-center justify-center p-6 text-center flex-grow">
-                                       <div className="flex mb-2">
-                                            {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
-                                        </div>
-                                        <p className="text-muted-foreground italic">&quot;{testimonial.quote}&quot;</p>
+                                        <p className="text-muted-foreground italic mb-4">&quot;{testimonial.quote}&quot;</p>
                                         <p className="font-semibold mt-auto pt-4">- {testimonial.author}</p>
                                     </CardContent>
                                 </Card>
