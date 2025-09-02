@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -12,7 +13,7 @@ import { cn } from '@/lib/utils';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
-  { href: '/dashboard', label: 'Dashboard' }
+  { href: '/about#contact', label: 'Contact' },
 ];
 
 const authLinks = [
@@ -36,6 +37,9 @@ export function Header() {
         </nav>
         <div className="flex flex-1 items-center justify-end gap-2">
             <nav className="hidden md:flex items-center gap-2">
+                 <Button asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                </Button>
                 {authLinks.map(({href, label}) => (
                     <Button key={label} variant={href === '/auth/register' ? 'default' : 'ghost'} asChild>
                         <Link href={href}>{label}</Link>
@@ -62,7 +66,7 @@ export function Header() {
                     </SheetTrigger>
                 </div>
                 <nav className="flex flex-col gap-4 text-sm font-medium">
-                  {[...navLinks, ...authLinks].map(({ href, label }) => (
+                  {[...navLinks, { href: '/dashboard', label: 'Dashboard' } , ...authLinks].map(({ href, label }) => (
                     <Link
                       key={label}
                       href={href}
