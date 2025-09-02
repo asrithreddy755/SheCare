@@ -1,9 +1,20 @@
 
+"use client"
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle, Lock, MessageCircle, Video } from 'lucide-react';
+import { CheckCircle, Lock, MessageCircle, Star, Video } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
+import * as React from 'react'
 
 const features = [
   {
@@ -23,7 +34,35 @@ const features = [
   },
 ];
 
+const testimonials = [
+    {
+        quote: "SheCare has been a game-changer for me. I was able to discuss a sensitive health issue without any fear of being judged. Truly grateful for this platform.",
+        author: "Anonymous",
+    },
+    {
+        quote: "The anonymity gave me the confidence to finally seek help. The doctor was professional, and the video call was seamless. Highly recommended!",
+        author: "Anonymous",
+    },
+    {
+        quote: "I love how easy it is to book an appointment. The whole process is designed with user privacy in mind. It's a service I can trust.",
+        author: "Anonymous",
+    },
+    {
+        quote: "Finally, a healthcare platform that understands the need for privacy. The encrypted chat is a great feature for follow-up questions.",
+        author: "Anonymous",
+    },
+     {
+        quote: "As someone with a busy schedule, being able to connect with a doctor from home is amazing. The platform is secure and very user-friendly.",
+        author: "Anonymous",
+    },
+];
+
 export default function Home() {
+
+  const plugin = React.useRef(
+    Autoplay({ delay: 4000, stopOnInteraction: true })
+  )
+
   return (
     <div className="flex flex-col min-h-dvh">
       <main className="flex-1">
@@ -105,7 +144,49 @@ export default function Home() {
             </div>
           </div>
         </section>
+        
+        {/* Testimonials Section */}
+        <section className="w-full py-12 md:py-24 lg:py-32">
+            <div className="container px-4 md:px-6">
+                <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                    <div className="space-y-2">
+                        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">What Our Users Say</h2>
+                        <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                            Read how SheCare has made a difference in their lives.
+                        </p>
+                    </div>
+                </div>
+                <Carousel
+                  plugins={[plugin.current]}
+                  className="w-full max-w-4xl mx-auto mt-12"
+                  onMouseEnter={plugin.current.stop}
+                  onMouseLeave={plugin.current.reset}
+                >
+                    <CarouselContent>
+                        {testimonials.map((testimonial, index) => (
+                        <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                            <div className="p-1">
+                                <Card className="h-full">
+                                    <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+                                       <div className="flex mb-2">
+                                            {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
+                                        </div>
+                                        <p className="text-muted-foreground italic">&quot;{testimonial.quote}&quot;</p>
+                                        <p className="font-semibold mt-4">- {testimonial.author}</p>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                </Carousel>
+            </div>
+        </section>
       </main>
     </div>
   );
 }
+
+    

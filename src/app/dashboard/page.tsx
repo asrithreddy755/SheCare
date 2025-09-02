@@ -110,7 +110,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <Button asChild>
-                <Link href="/dashboard/book">Book a Consultation</Link>
+                <Link href="/dashboard/book"><Stethoscope className="mr-2 h-4 w-4" />Book a Consultation</Link>
               </Button>
             </CardContent>
           </Card>
@@ -138,3 +138,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
