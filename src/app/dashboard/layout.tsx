@@ -14,15 +14,15 @@ export default function DashboardLayout({
 }) {
   useAuth();
   const pathname = usePathname();
-  const showBackButton = pathname.includes('/dashboard/chat/');
+  const showBackButton = pathname.includes('/dashboard/chat/') || pathname.includes('/dashboard/consultation/');
 
   return (
     <div className="container py-8 md:py-12">
        {showBackButton && (
         <Button variant="outline" size="sm" className="mb-4" asChild>
-          <Link href="/dashboard/chat">
+          <Link href="/dashboard">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Chats
+            Back to Dashboard
           </Link>
         </Button>
       )}
