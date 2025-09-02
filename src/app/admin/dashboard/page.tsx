@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { PlusCircle, Trash2 } from "lucide-react"
+import { PlusCircle, Trash2, Inbox } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import {
@@ -22,12 +22,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 
 type Doctor = {
   name: string
   specialty: string
   status: "Active" | "Inactive"
+}
+
+type Message = {
+  name: string;
+  email: string;
+  message: string;
+  date: string;
 }
 
 const initialDoctors: Doctor[] = [
@@ -39,10 +47,15 @@ const initialDoctors: Doctor[] = [
 
 export default function AdminDashboardPage() {
   const [doctors, setDoctors] = React.useState<Doctor[]>(initialDoctors)
+  const [messages, setMessages] = React.useState<Message[]>([])
   const [newDoctor, setNewDoctor] = React.useState({ name: "", specialty: "" })
   const { toast } = useToast()
   const router = useRouter();
 
+  React.useEffect(() => {
+    const storedMessages = JSON.parse(localStorage.getItem('contactMessages') || '[]')
+    setMessages(storedMessages.sort((a: Message, b: Message) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+  }, [])
 
   const handleAddDoctor = (e: React.FormEvent) => {
     e.preventDefault()
@@ -62,6 +75,17 @@ export default function AdminDashboardPage() {
       title: "Doctor Removed",
       description: `${doctorName} has been removed.`,
       variant: "destructive"
+    })
+  }
+
+  const handleRemoveMessage = (messageDate: string) => {
+    const updatedMessages = messages.filter(msg => msg.date !== messageDate)
+    setMessages(updatedMessages)
+    localStorage.setItem('contactMessages', JSON.stringify(updatedMessages))
+    toast({
+        title: "Message Removed",
+        description: "The message has been deleted.",
+        variant: "destructive"
     })
   }
   
@@ -96,8 +120,8 @@ export default function AdminDashboardPage() {
         </AlertDialog>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="md:col-span-2">
+      <div className="grid lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>Doctor Management</CardTitle>
@@ -135,6 +159,42 @@ export default function AdminDashboardPage() {
               </Table>
             </CardContent>
           </Card>
+           <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Inbox /> Inbox
+                </CardTitle>
+                <CardDescription>Messages from the contact form.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                 <ScrollArea className="h-[300px]">
+                    {messages.length > 0 ? (
+                        <div className="space-y-4">
+                            {messages.map((msg) => (
+                                <div key={msg.date} className="border p-4 rounded-lg">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <p className="font-semibold">{msg.name} <span className="text-sm text-muted-foreground font-normal">&lt;{msg.email}&gt;</span></p>
+                                            <p className="text-xs text-muted-foreground">{new Date(msg.date).toLocaleString()}</p>
+                                        </div>
+                                        <Button variant="ghost" size="icon" onClick={() => handleRemoveMessage(msg.date)}>
+                                            <Trash2 className="h-4 w-4" />
+                                            <span className="sr-only">Delete message</span>
+                                        </Button>
+                                    </div>
+                                    <p className="mt-2 text-sm">{msg.message}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center text-muted-foreground py-12">
+                            <Inbox className="mx-auto h-12 w-12" />
+                            <p>No messages yet.</p>
+                        </div>
+                    )}
+                </ScrollArea>
+              </CardContent>
+            </Card>
         </div>
 
         <div>
