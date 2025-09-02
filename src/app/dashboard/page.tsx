@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, Clock, Stethoscope, MessageCircle, Star } from "lucide-react";
+import { Calendar, Clock, Stethoscope, MessageCircle, Star, Video } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import {
@@ -99,9 +99,18 @@ export default function DashboardPage() {
                     <span>{appt.time}</span>
                   </div>
                 </CardContent>
-                <CardFooter>
-                  <Button className="w-full" asChild>
-                     <Link href={`/dashboard/consultation/${index}`}>Join Call</Link>
+                <CardFooter className="grid grid-cols-2 gap-2">
+                   <Button asChild>
+                     <Link href={`/dashboard/consultation/${index}`}>
+                        <Video className="mr-2 h-4 w-4" />
+                        Join Call
+                     </Link>
+                  </Button>
+                  <Button variant="outline" asChild>
+                     <Link href={`/dashboard/chat/${index}`}>
+                        <MessageCircle className="mr-2 h-4 w-4" />
+                        Chat
+                    </Link>
                   </Button>
                 </CardFooter>
               </Card>
