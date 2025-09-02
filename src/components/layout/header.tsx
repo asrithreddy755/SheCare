@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, LayoutDashboard } from 'lucide-react';
+import { Menu, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Logo } from '@/components/logo';
@@ -90,12 +90,6 @@ export function Header() {
               <div className="flex flex-col h-full">
                 <div className="flex justify-between items-center border-b pb-2 mb-4">
                     <Logo />
-                    <SheetTrigger asChild>
-                         <Button variant="ghost" size="icon">
-                            <X className="h-5 w-5" />
-                            <span className="sr-only">Close menu</span>
-                         </Button>
-                    </SheetTrigger>
                 </div>
                 <nav className="flex flex-col gap-4 text-sm font-medium">
                   {mobileNavLinks.map(({ href, label }) => (
