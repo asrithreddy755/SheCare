@@ -10,6 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
+import { Stethoscope } from "lucide-react"
+import { Input } from "@/components/ui/input"
 
 const specialties = ["Gynecology", "Mental Health", "Nutrition", "Dermatology", "General Practice"];
 const timeSlots = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM"];
@@ -17,16 +19,22 @@ const timeSlots = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "
 export default function BookConsultationPage() {
   const searchParams = useSearchParams()
   const initialSpecialty = searchParams.get('specialty') || "";
+  const initialDoctor = searchParams.get('doctor') || "";
 
   const [date, setDate] = React.useState<Date | undefined>(new Date())
   const [specialty, setSpecialty] = React.useState<string>(initialSpecialty)
+  const [doctor, setDoctor] = React.useState<string>(initialDoctor);
   const [time, setTime] = React.useState<string>("")
   const { toast } = useToast()
   
   React.useEffect(() => {
     const specialtyFromQuery = searchParams.get('specialty');
+    const doctorFromQuery = searchParams.get('doctor');
     if (specialtyFromQuery && specialties.includes(specialtyFromQuery)) {
       setSpecialty(specialtyFromQuery);
+    }
+    if(doctorFromQuery) {
+        setDoctor(doctorFromQuery);
     }
   }, [searchParams]);
 
@@ -53,18 +61,24 @@ export default function BookConsultationPage() {
           <CardDescription>Select a specialty and a time that works for you.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
-          <div className="space-y-2">
-            <Label className="text-lg font-semibold">1. Select Specialty</Label>
-            <Select onValueChange={setSpecialty} value={specialty}>
-              <SelectTrigger>
-                <SelectValue placeholder="Choose a medical specialty" />
-              </SelectTrigger>
-              <SelectContent>
-                {specialties.map(spec => (
-                  <SelectItem key={spec} value={spec}>{spec}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label className="text-lg font-semibold">1. Select Specialty</Label>
+              <Select onValueChange={setSpecialty} value={specialty}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose a medical specialty" />
+                </SelectTrigger>
+                <SelectContent>
+                  {specialties.map(spec => (
+                    <SelectItem key={spec} value={spec}>{spec}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="space-y-2">
+                <Label className="text-lg font-semibold">Doctor</Label>
+                <Input value={doctor} readOnly placeholder="Doctor will be assigned" />
+             </div>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8">

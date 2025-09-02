@@ -189,7 +189,7 @@ export default function DashboardPage() {
                     </Link>
                   </Button>
                   <Button asChild>
-                    <Link href={`/dashboard/book?specialty=${encodeURIComponent(appt.specialty)}`}>
+                    <Link href={`/dashboard/book?specialty=${encodeURIComponent(appt.specialty)}&doctor=${encodeURIComponent(appt.doctor)}`}>
                       <Stethoscope className="mr-2 h-4 w-4" />
                       Book Again
                     </Link>
@@ -210,7 +210,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
-
-    
