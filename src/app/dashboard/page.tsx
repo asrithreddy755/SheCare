@@ -7,6 +7,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Calendar, Clock, PlusCircle, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const upcomingAppointments = [
   {
@@ -106,7 +117,23 @@ export default function DashboardPage() {
         )}
       </div>
        <div className="text-right">
-        <Button variant="destructive" onClick={handleLogout}>Logout</Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive">Logout</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+              <AlertDialogDescription>
+                You will be returned to the login page.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
        </div>
     </div>
   );

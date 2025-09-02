@@ -7,6 +7,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { useRouter } from "next/navigation"
 import { Calendar, Clock, Video } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 type Appointment = {
   patientAlias: string
@@ -42,7 +53,23 @@ export default function DoctorDashboardPage() {
           <h1 className="text-3xl font-bold font-headline">Welcome, {doctorName}</h1>
           <p className="text-muted-foreground">Here are your appointments for today and the upcoming week.</p>
         </div>
-        <Button variant="destructive" onClick={handleLogout}>Logout</Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive">Logout</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+              <AlertDialogDescription>
+                You will be returned to the login page.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
