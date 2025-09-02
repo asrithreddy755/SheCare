@@ -2,6 +2,10 @@
 "use client";
 
 import { useAuth } from '@/hooks/use-auth';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 export default function DashboardLayout({
   children,
@@ -9,5 +13,20 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   useAuth();
-  return <div className="container py-8 md:py-12">{children}</div>;
+  const pathname = usePathname();
+  const showBackButton = pathname.includes('/dashboard/chat/');
+
+  return (
+    <div className="container py-8 md:py-12">
+       {showBackButton && (
+        <Button variant="outline" size="sm" className="mb-4" asChild>
+          <Link href="/dashboard/chat">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Chats
+          </Link>
+        </Button>
+      )}
+      {children}
+    </div>
+  );
 }

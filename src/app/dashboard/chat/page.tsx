@@ -1,12 +1,20 @@
+
+"use client"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Send } from "lucide-react"
+import { Send, MessageCircle } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { AiRecommendationForm } from "@/components/ai-recommendation-form"
+import Link from "next/link"
 
 export default function ChatPage() {
+  const upcomingAppointments = [
+    { doctor: "Dr. Evelyn Reed", specialty: "Gynecology" },
+    { doctor: "Dr. Sarah Chen", specialty: "Mental Health" },
+  ];
+
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6 font-headline">Anonymous Chat</h1>
@@ -21,41 +29,36 @@ export default function ChatPage() {
         <TabsContent value="doctor-chat" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Chat with Dr. Evelyn Reed</CardTitle>
+              <CardTitle>Doctor Chats</CardTitle>
+              <CardDescription>Select a consultation to start a conversation.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4 h-[400px] overflow-y-auto p-4 border rounded-md flex flex-col">
-                {/* Chat messages */}
-                <div className="flex items-end gap-2">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://picsum.photos/100/100?q=1" data-ai-hint="doctor woman" />
-                    <AvatarFallback>DR</AvatarFallback>
-                  </Avatar>
-                  <div className="rounded-lg bg-muted p-3 max-w-[70%]">
-                    <p className="text-sm">Hello! How can I help you today? Please describe your concerns.</p>
-                  </div>
-                </div>
-                <div className="flex items-end gap-2 justify-end">
-                  <div className="rounded-lg bg-primary text-primary-foreground p-3 max-w-[70%]">
-                    <p className="text-sm">Hi Dr. Reed. I've been experiencing some issues and wanted to discuss them before our video call.</p>
-                  </div>
-                   <Avatar className="h-8 w-8">
-                    <AvatarFallback>You</AvatarFallback>
-                  </Avatar>
-                </div>
-                 <div className="flex items-end gap-2">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://picsum.photos/100/100?q=1" data-ai-hint="doctor woman" />
-                    <AvatarFallback>DR</AvatarFallback>
-                  </Avatar>
-                  <div className="rounded-lg bg-muted p-3 max-w-[70%]">
-                    <p className="text-sm">Of course, feel free to share. I'm here to listen.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 flex gap-2">
-                <Input placeholder="Type your message..." />
-                <Button><Send className="h-4 w-4" /></Button>
+                <div className="space-y-4">
+                {upcomingAppointments.map((appt, index) => (
+                    <Card key={index}>
+                        <CardContent className="flex items-center justify-between p-4">
+                            <div>
+                                <h3 className="font-semibold">{appt.doctor}</h3>
+                                <p className="text-sm text-muted-foreground">{appt.specialty}</p>
+                            </div>
+                             <Button asChild>
+                                <Link href={`/dashboard/chat/${index}`}>
+                                    <MessageCircle className="mr-2 h-4 w-4" />
+                                    Open Chat
+                                </Link>
+                            </Button>
+                        </CardContent>
+                    </Card>
+                ))}
+                 {upcomingAppointments.length === 0 && (
+                     <div className="text-center text-muted-foreground py-12">
+                        <MessageCircle className="mx-auto h-12 w-12" />
+                        <p className="mt-4">You have no upcoming consultations to chat about.</p>
+                        <Button asChild variant="link">
+                            <Link href="/dashboard/book">Book a Consultation</Link>
+                        </Button>
+                    </div>
+                )}
               </div>
             </CardContent>
           </Card>

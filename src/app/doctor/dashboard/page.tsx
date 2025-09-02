@@ -6,7 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { useRouter } from "next/navigation"
-import { Calendar, Clock, Video } from "lucide-react"
+import { Calendar, Clock, Video, MessageCircle } from "lucide-react"
+import Link from "next/link"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -83,18 +84,22 @@ export default function DoctorDashboardPage() {
                   <TableRow>
                     <TableHead>Patient</TableHead>
                     <TableHead>Date & Time</TableHead>
-                    <TableHead className="text-right">Action</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {upcomingAppointments.map((appt) => (
+                  {upcomingAppointments.map((appt, index) => (
                     <TableRow key={appt.patientAlias}>
                       <TableCell className="font-medium">{appt.patientAlias}</TableCell>
                       <TableCell>{appt.date} at {appt.time}</TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right space-x-2">
+                        <Button variant="ghost" size="sm" asChild>
+                           <Link href={`/doctor/chat/${index}`}>
+                            <MessageCircle className="h-4 w-4" />
+                           </Link>
+                        </Button>
                         <Button variant="ghost" size="sm">
-                          <Video className="mr-2 h-4 w-4" />
-                          Join Call
+                          <Video className="h-4 w-4" />
                         </Button>
                       </TableCell>
                     </TableRow>
