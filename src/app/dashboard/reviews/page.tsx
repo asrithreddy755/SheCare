@@ -35,8 +35,15 @@ export default function ReviewsPage() {
       return
     }
 
-    // In a real app, you'd send this to your backend
-    console.log({ doctor, rating, review })
+    const newReview = {
+      doctor,
+      rating,
+      review,
+      date: new Date().toISOString(),
+    };
+    
+    const existingReviews = JSON.parse(localStorage.getItem('doctorReviews') || '[]');
+    localStorage.setItem('doctorReviews', JSON.stringify([...existingReviews, newReview]));
 
     toast({
       title: "Review Submitted!",

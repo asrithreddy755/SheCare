@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { PlusCircle, Trash2, Inbox, UserPlus } from "lucide-react"
+import { PlusCircle, Trash2, Inbox, UserPlus, Star } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import {
@@ -45,6 +45,13 @@ type Message = {
   date: string;
 }
 
+type Review = {
+    doctor: string;
+    rating: number;
+    review: string;
+    date: string;
+}
+
 const initialDoctors: Doctor[] = [
   { name: "Dr. Evelyn Reed", specialty: "Gynecology", email: "doctor.reed@shecare.com", status: "Active" },
   { name: "Dr. Sarah Chen", specialty: "Mental Health", email: "doctor.chen@shecare.com", status: "Active" },
@@ -61,7 +68,8 @@ const specialties = ["Gynecology", "Mental Health", "Nutrition", "Dermatology", 
 export default function AdminDashboardPage() {
   const [doctors, setDoctors] = React.useState<Doctor[]>(initialDoctors)
   const [admins, setAdmins] = React.useState<Admin[]>(initialAdmins);
-  const [messages, setMessages] = React.useState<Message[]>([])
+  const [messages, setMessages] = React.useState<Message[]>([]);
+  const [reviews, setReviews] = React.useState<Review[]>([]);
   const [newDoctor, setNewDoctor] = React.useState({ name: "", specialty: "", email: "", password: "" })
   const [newAdmin, setNewAdmin] = React.useState({ name: "", email: "" });
   const { toast } = useToast()
@@ -70,6 +78,9 @@ export default function AdminDashboardPage() {
   React.useEffect(() => {
     const storedMessages = JSON.parse(localStorage.getItem('contactMessages') || '[]')
     setMessages(storedMessages.sort((a: Message, b: Message) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+    
+    const storedReviews = JSON.parse(localStorage.getItem('doctorReviews') || '[]');
+    setReviews(storedReviews.sort((a: Review, b: Review) => new Date(b.date).getTime() - new Date(a.date).getTime()));
   }, [])
 
   const handleAddDoctor = (e: React.FormEvent) => {
@@ -130,6 +141,17 @@ export default function AdminDashboardPage() {
     toast({
         title: "Message Removed",
         description: "The message has been deleted.",
+        variant: "destructive"
+    })
+  }
+
+  const handleRemoveReview = (reviewDate: string) => {
+    const updatedReviews = reviews.filter(rev => rev.date !== reviewDate)
+    setReviews(updatedReviews)
+    localStorage.setItem('doctorReviews', JSON.stringify(updatedReviews))
+    toast({
+        title: "Review Removed",
+        description: "The review has been deleted.",
         variant: "destructive"
     })
   }
@@ -237,6 +259,55 @@ export default function AdminDashboardPage() {
               </Table>
             </CardContent>
           </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Star /> Doctor Reviews
+                </CardTitle>
+                <CardDescription>Feedback submitted by users.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                 <ScrollArea className="h-[300px] w-full">
+                    {reviews.length > 0 ? (
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Doctor</TableHead>
+                              <TableHead>Rating</TableHead>
+                              <TableHead>Review</TableHead>
+                              <TableHead className="text-right">Actions</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {reviews.map((rev) => (
+                                <TableRow key={rev.date}>
+                                  <TableCell className="font-medium">{rev.doctor}</TableCell>
+                                  <TableCell>
+                                    <div className="flex items-center">
+                                      {Array(rev.rating).fill(0).map((_,i) => <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />)}
+                                      {Array(5 - rev.rating).fill(0).map((_,i) => <Star key={i} className="w-4 h-4 text-muted-foreground" />)}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell className="max-w-[200px] truncate">{rev.review}</TableCell>
+                                  <TableCell className="text-right">
+                                      <Button variant="ghost" size="icon" onClick={() => handleRemoveReview(rev.date)}>
+                                          <Trash2 className="h-4 w-4" />
+                                          <span className="sr-only">Delete review</span>
+                                      </Button>
+                                  </TableCell>
+                                </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                    ) : (
+                        <div className="text-center text-muted-foreground py-12">
+                            <Star className="mx-auto h-12 w-12" />
+                            <p>No reviews yet.</p>
+                        </div>
+                    )}
+                </ScrollArea>
+              </CardContent>
+            </Card>
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -387,7 +458,3 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
-
-    
-
-    
