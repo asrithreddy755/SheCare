@@ -1,31 +1,42 @@
 
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { Star } from "lucide-react"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 
 export default function ReviewsPage() {
+  const searchParams = useSearchParams()
+  const initialDoctor = searchParams.get('doctor') || ""
+
   const [review, setReview] = useState("")
   const [rating, setRating] = useState(0)
+  const [doctor, setDoctor] = useState(initialDoctor)
   const { toast } = useToast()
+  
+  useEffect(() => {
+    setDoctor(searchParams.get('doctor') || "");
+  }, [searchParams]);
 
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!review.trim() || rating === 0) {
+    if (!review.trim() || rating === 0 || !doctor) {
       toast({
         title: "Incomplete Review",
-        description: "Please provide a rating and a message.",
+        description: "Please select a doctor, provide a rating, and a message.",
         variant: "destructive",
       })
       return
     }
 
     // In a real app, you'd send this to your backend
-    console.log({ rating, review })
+    console.log({ doctor, rating, review })
 
     toast({
       title: "Review Submitted!",
@@ -33,6 +44,7 @@ export default function ReviewsPage() {
     })
     setReview("")
     setRating(0)
+    // We don't reset doctor in case they want to write another for the same one
   }
 
   return (
@@ -46,6 +58,19 @@ export default function ReviewsPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleReviewSubmit} className="space-y-6">
+            
+            <div className="space-y-2">
+                <Label htmlFor="doctor-name" className="text-lg font-semibold">Doctor</Label>
+                <Input 
+                    id="doctor-name"
+                    value={doctor}
+                    onChange={(e) => setDoctor(e.target.value)}
+                    placeholder="Enter doctor's name"
+                    required
+                    readOnly={!!initialDoctor} // Make it readonly if pre-filled
+                />
+            </div>
+
             <div className="space-y-2">
               <label className="text-lg font-semibold">Your Rating</label>
               <div className="flex items-center gap-1">

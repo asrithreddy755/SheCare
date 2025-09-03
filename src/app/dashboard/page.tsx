@@ -195,7 +195,7 @@ export default function DashboardPage() {
                     </Link>
                   </Button>
                   <Button variant="secondary" className="w-full" asChild>
-                     <Link href="/dashboard/reviews">
+                     <Link href={`/dashboard/reviews?doctor=${encodeURIComponent(appt.doctor)}`}>
                         <Star className="mr-2 h-4 w-4" />
                         Leave a Review
                     </Link>
