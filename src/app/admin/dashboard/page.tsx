@@ -23,6 +23,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 
 type Doctor = {
@@ -54,6 +55,8 @@ const initialDoctors: Doctor[] = [
 const initialAdmins: Admin[] = [
     { name: "Super Admin", email: "admin@shecare.com" },
 ]
+
+const specialties = ["Gynecology", "Mental Health", "Nutrition", "Dermatology", "General Practice"];
 
 export default function AdminDashboardPage() {
   const [doctors, setDoctors] = React.useState<Doctor[]>(initialDoctors)
@@ -322,13 +325,16 @@ export default function AdminDashboardPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="specialty">Specialty</Label>
-                  <Input
-                    id="specialty"
-                    placeholder="e.g., General Practice"
-                    value={newDoctor.specialty}
-                    onChange={(e) => setNewDoctor({ ...newDoctor, specialty: e.target.value })}
-                    required
-                  />
+                    <Select onValueChange={(value) => setNewDoctor({ ...newDoctor, specialty: value })} value={newDoctor.specialty} required>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Choose a specialty" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {specialties.map(spec => (
+                                <SelectItem key={spec} value={spec}>{spec}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
               </CardContent>
               <CardFooter>
@@ -381,5 +387,7 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
+
+    
 
     
