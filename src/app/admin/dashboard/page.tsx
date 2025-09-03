@@ -28,6 +28,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 type Doctor = {
   name: string
   specialty: string
+  email: string
   status: "Active" | "Inactive"
 }
 
@@ -44,10 +45,10 @@ type Message = {
 }
 
 const initialDoctors: Doctor[] = [
-  { name: "Dr. Evelyn Reed", specialty: "Gynecology", status: "Active" },
-  { name: "Dr. Sarah Chen", specialty: "Mental Health", status: "Active" },
-  { name: "Dr. Ben Carter", specialty: "Nutrition", status: "Inactive" },
-  { name: "Dr. Maria Garcia", specialty: "Dermatology", status: "Active" },
+  { name: "Dr. Evelyn Reed", specialty: "Gynecology", email: "doctor.reed@shecare.com", status: "Active" },
+  { name: "Dr. Sarah Chen", specialty: "Mental Health", email: "doctor.chen@shecare.com", status: "Active" },
+  { name: "Dr. Ben Carter", specialty: "Nutrition", email: "doctor.carter@shecare.com", status: "Inactive" },
+  { name: "Dr. Maria Garcia", specialty: "Dermatology", email: "doctor.garcia@shecare.com", status: "Active" },
 ]
 
 const initialAdmins: Admin[] = [
@@ -58,7 +59,7 @@ export default function AdminDashboardPage() {
   const [doctors, setDoctors] = React.useState<Doctor[]>(initialDoctors)
   const [admins, setAdmins] = React.useState<Admin[]>(initialAdmins);
   const [messages, setMessages] = React.useState<Message[]>([])
-  const [newDoctor, setNewDoctor] = React.useState({ name: "", specialty: "" })
+  const [newDoctor, setNewDoctor] = React.useState({ name: "", specialty: "", email: "", password: "" })
   const [newAdmin, setNewAdmin] = React.useState({ name: "", email: "" });
   const { toast } = useToast()
   const router = useRouter();
@@ -70,9 +71,9 @@ export default function AdminDashboardPage() {
 
   const handleAddDoctor = (e: React.FormEvent) => {
     e.preventDefault()
-    if (newDoctor.name && newDoctor.specialty) {
-      setDoctors([...doctors, { ...newDoctor, status: "Active" }])
-      setNewDoctor({ name: "", specialty: "" })
+    if (newDoctor.name && newDoctor.specialty && newDoctor.email && newDoctor.password) {
+      setDoctors([...doctors, { name: newDoctor.name, specialty: newDoctor.specialty, email: newDoctor.email, status: "Active" }])
+      setNewDoctor({ name: "", specialty: "", email: "", password: "" })
       toast({
         title: "Doctor Added",
         description: `${newDoctor.name} has been added to the list.`,
@@ -173,6 +174,7 @@ export default function AdminDashboardPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>
+                    <TableHead>Email</TableHead>
                     <TableHead>Specialty</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
@@ -182,6 +184,7 @@ export default function AdminDashboardPage() {
                   {doctors.map((doctor) => (
                     <TableRow key={doctor.name}>
                       <TableCell className="font-medium">{doctor.name}</TableCell>
+                      <TableCell>{doctor.email}</TableCell>
                       <TableCell>{doctor.specialty}</TableCell>
                       <TableCell>
                         <Badge variant={doctor.status === "Active" ? "default" : "secondary"}>
@@ -295,6 +298,28 @@ export default function AdminDashboardPage() {
                     required
                   />
                 </div>
+                 <div className="space-y-2">
+                  <Label htmlFor="doctor-email">Email</Label>
+                  <Input
+                    id="doctor-email"
+                    type="email"
+                    placeholder="e.g., doctor@shecare.com"
+                    value={newDoctor.email}
+                    onChange={(e) => setNewDoctor({ ...newDoctor, email: e.target.value })}
+                    required
+                  />
+                </div>
+                 <div className="space-y-2">
+                  <Label htmlFor="doctor-password">Password</Label>
+                  <Input
+                    id="doctor-password"
+                    type="password"
+                    placeholder="Enter a strong password"
+                    value={newDoctor.password}
+                    onChange={(e) => setNewDoctor({ ...newDoctor, password: e.target.value })}
+                    required
+                  />
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="specialty">Specialty</Label>
                   <Input
@@ -356,3 +381,5 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
+
+    
