@@ -181,17 +181,23 @@ export default function DashboardPage() {
                     <span>Completed on {new Date(appt.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                   </div>
                 </CardContent>
-                <CardFooter className="grid grid-cols-2 gap-2">
-                   <Button variant="outline" asChild>
+                <CardFooter className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                   <Button variant="outline" className="w-full" asChild>
                      <Link href={`/dashboard/chat/${index + upcomingAppointments.length}`}>
                         <MessageCircle className="mr-2 h-4 w-4" />
                         Continue Chat
                     </Link>
                   </Button>
-                  <Button asChild>
+                  <Button className="w-full" asChild>
                     <Link href={`/dashboard/book?specialty=${encodeURIComponent(appt.specialty)}&doctor=${encodeURIComponent(appt.doctor)}`}>
                       <Stethoscope className="mr-2 h-4 w-4" />
                       Book Again
+                    </Link>
+                  </Button>
+                  <Button variant="secondary" className="w-full" asChild>
+                     <Link href="/dashboard/reviews">
+                        <Star className="mr-2 h-4 w-4" />
+                        Leave a Review
                     </Link>
                   </Button>
                 </CardFooter>
