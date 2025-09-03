@@ -56,7 +56,7 @@ const initialAdmins: Admin[] = [
     { name: "Super Admin", email: "admin@shecare.com" },
 ]
 
-const specialties = ["Gynecology", "Mental Health", "Nutrition", "Dermatology", "General Practice"];
+const specialties = ["Gynecology", "Mental Health", "Nutrition", "Dermatology", "Endocrinologist", "General Physician"];
 
 export default function AdminDashboardPage() {
   const [doctors, setDoctors] = React.useState<Doctor[]>(initialDoctors)
