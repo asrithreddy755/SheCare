@@ -25,7 +25,8 @@ const upcomingAppointments = [
     date: "2024-08-15",
     time: "10:30 AM",
     avatar: "https://picsum.photos/100/100?q=1",
-    dataAiHint: "doctor woman"
+    dataAiHint: "doctor woman",
+    new: true,
   },
   {
     doctor: "Dr. Sarah Chen",
@@ -33,7 +34,8 @@ const upcomingAppointments = [
     date: "2024-08-22",
     time: "02:00 PM",
     avatar: "https://picsum.photos/100/100?q=2",
-    dataAiHint: "therapist smiling"
+    dataAiHint: "therapist smiling",
+    new: false,
   },
 ];
 
@@ -105,7 +107,13 @@ export default function DashboardPage() {
         {upcomingAppointments.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2">
             {upcomingAppointments.map((appt, index) => (
-              <Card key={index}>
+              <Card key={index} className="relative">
+                {appt.new && (
+                  <span className="absolute top-4 right-4 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                  </span>
+                )}
                 <CardHeader>
                   <div>
                     <CardTitle>{appt.doctor}</CardTitle>

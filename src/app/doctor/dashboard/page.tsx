@@ -25,11 +25,12 @@ type Appointment = {
   date: string
   time: string
   status: "Confirmed" | "Completed" | "Cancelled"
+  new?: boolean;
 }
 
 const upcomingAppointments: Appointment[] = [
-  { patientAlias: "Sunny", date: "2024-08-15", time: "10:30 AM", status: "Confirmed" },
-  { patientAlias: "Aqua", date: "2024-08-15", time: "11:30 AM", status: "Confirmed" },
+  { patientAlias: "Sunny", date: "2024-08-15", time: "10:30 AM", status: "Confirmed", new: true },
+  { patientAlias: "Aqua", date: "2024-08-15", time: "11:30 AM", status: "Confirmed", new: true },
   { patientAlias: "Starlight", date: "2024-08-16", time: "02:00 PM", status: "Confirmed" },
 ];
 
@@ -89,8 +90,18 @@ export default function DoctorDashboardPage() {
                 </TableHeader>
                 <TableBody>
                   {upcomingAppointments.map((appt, index) => (
-                    <TableRow key={appt.patientAlias}>
-                      <TableCell className="font-medium">{appt.patientAlias}</TableCell>
+                    <TableRow key={appt.patientAlias} className={appt.new ? 'relative' : ''}>
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-2">
+                           {appt.new && (
+                            <span className="flex h-2 w-2 relative">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                          )}
+                          {appt.patientAlias}
+                        </div>
+                      </TableCell>
                       <TableCell>{appt.date} at {appt.time}</TableCell>
                       <TableCell className="text-right space-x-2">
                         <Button variant="ghost" size="sm" asChild>
@@ -151,5 +162,3 @@ export default function DoctorDashboardPage() {
     </div>
   )
 }
-
-    
