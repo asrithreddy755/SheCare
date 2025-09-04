@@ -3,7 +3,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Calendar, Clock, Stethoscope, MessageCircle, Star, Video, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
@@ -107,11 +106,7 @@ export default function DashboardPage() {
           <div className="grid gap-6 md:grid-cols-2">
             {upcomingAppointments.map((appt, index) => (
               <Card key={index}>
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <Avatar className="h-12 w-12">
-                    <AvatarImage src={appt.avatar} alt={appt.doctor} data-ai-hint={appt.dataAiHint} />
-                    <AvatarFallback>{appt.doctor.charAt(0)}</AvatarFallback>
-                  </Avatar>
+                <CardHeader>
                   <div>
                     <CardTitle>{appt.doctor}</CardTitle>
                     <CardDescription>{appt.specialty}</CardDescription>
@@ -165,11 +160,7 @@ export default function DashboardPage() {
           <div className="grid gap-6 md:grid-cols-2">
             {pastAppointments.map((appt, index) => (
               <Card key={index} className="opacity-80">
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <Avatar className="h-12 w-12">
-                    <AvatarImage src={appt.avatar} alt={appt.doctor} data-ai-hint={appt.dataAiHint} />
-                    <AvatarFallback>{appt.doctor.charAt(0)}</AvatarFallback>
-                  </Avatar>
+                <CardHeader>
                   <div>
                     <CardTitle>{appt.doctor}</CardTitle>
                     <CardDescription>{appt.specialty}</CardDescription>
